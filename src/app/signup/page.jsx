@@ -2,11 +2,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const Signup = () => {
   const router = useRouter();
+  const { signup, currentUser,loading } = useAuth();
   const [user, setUser] = useState({
     fullName: "",
     email: "",
@@ -15,20 +16,16 @@ const Signup = () => {
 
   const doSignup = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("/api/signup", user);
-      console.log(response.data);
-      toast.success(response.data.message);
-      router.replace("/");
+      await signup(user);
+      toast.success("Signup successful!");
+      router.push("/home");
     } catch (err) {
-      console.log(err);
-      if (err.response.data.error) {
-        return toast.error(err.response.data.error);
-      }
       toast.error(err.message);
     }
   };
+
+  if (currentUser) return router.push("/home");
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
       <div className="bg-blur-left bg-sky-800"></div>
