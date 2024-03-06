@@ -133,7 +133,7 @@ const Signup = () => {
       </form>
       <small className="mt-3">
         Already have an account?{" "}
-        <Link href="/login" className="underline font-medium">
+        <Link href="/" className="underline font-medium">
           Login here
         </Link>
       </small>
