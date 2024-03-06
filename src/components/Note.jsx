@@ -39,10 +39,10 @@ const Note = ({ data }) => {
   };
 
   return (
-    <div className="cursor-pointer w-full h-[15rem] bg-slate-50 hover:bg-sky-100 transition-colors duration-300 border rounded-lg border-gray-400 shadow-xl p-4 flex flex-col gap-3 justify-between">
+    <div className="cursor-pointer w-full h-[15rem] bg-slate-50 lg:hover:bg-sky-100 transition-colors duration-300 border rounded-lg border-gray-400 shadow-xl p-4 flex flex-col gap-3 justify-between">
       {isEditable ? (
         <textarea
-          className={"text-gray-700 outline-none h-full bg-sky-100"}
+          className={"text-gray-700 outline-none h-full bg-slate-50 lg:bg-sky-100"}
           value={note}
           onChange={handleChange}
         />

@@ -25,6 +25,7 @@ export const useNote = () => {
 export const NoteProvider = ({ children }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [allNotes, setAllNotes] = useState([]);
   const { currentUser } = useAuth();
 
   // create note
@@ -69,7 +70,7 @@ export const NoteProvider = ({ children }) => {
     console.log(data, "data");
     data = data.filter((item) => item.userId === currentUser?.uid);
     console.log(data, "data2");
-
+    setAllNotes(data)
     dispatch(setItems(data));
   };
 
@@ -82,7 +83,7 @@ export const NoteProvider = ({ children }) => {
     }
   }, []);
 
-  const value = { addNote, updateNote, deleteNote, loading, getNote };
+  const value = { addNote, updateNote, deleteNote, loading, getNote,allNotes };
 
   return <NoteContext.Provider value={value}>{children}</NoteContext.Provider>;
 };

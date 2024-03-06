@@ -11,10 +11,13 @@ import { useSelector } from "react-redux";
 export default function Home() {
   const router = useRouter();
   const { currentUser, loading } = useAuth();
-  const { addNote } = useNote();
+  const { addNote, allNotes } = useNote();
   const [note, setNote] = useState("");
   const [noteErr, setNoteErr] = useState("");
-  const notes = useSelector((state) => state.store.notes);
+  let notes = useSelector((state) => state.store.notes);
+  if (!notes) {
+    notes = allNotes;
+  }
 
   if (!currentUser) {
     return router.push("/");
