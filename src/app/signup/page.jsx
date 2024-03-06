@@ -9,11 +9,6 @@ import { useForm } from "react-hook-form";
 const Signup = () => {
   const router = useRouter();
   const { signup, currentUser, loading } = useAuth();
-  const [user, setUser] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-  });
   const {
     register,
     handleSubmit,
