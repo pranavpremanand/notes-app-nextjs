@@ -4,23 +4,30 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
   const router = useRouter();
-  const { currentUser,login } = useAuth();
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
+  const { currentUser, login } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const doLogin = async (e) => {
-    e.preventDefault();
+  const doLogin = async (values) => {
     try {
-      await login(user);
-      toast.success('Login successful!');
+      await login(values);
+      toast.success("Login successful!");
       router.push("/home");
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     }
   };
@@ -33,7 +40,10 @@ const Login = () => {
       <h1 className="text-2xl uppercase font-bold font-header underline">
         Login
       </h1>
-      <form onSubmit={doLogin} className="w-[85%] sm:w-1/2 lg:w-1/3 mx-auto">
+      <form
+        onSubmit={handleSubmit(doLogin)}
+        className="w-[85%] sm:w-1/2 lg:w-1/3 mx-auto"
+      >
         <div className="input-box flex flex-col mt-3">
           <label
             htmlFor="email"
@@ -46,8 +56,17 @@ const Login = () => {
             type="email"
             placeholder="Enter your email"
             className="border border-gray-400 outline-none focus:border-gray-600 p-2 rounded-sm"
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                message: "Email is invalid",
+              },
+            })}
           />
+          {errors.email && (
+            <small className="text-red-600">{errors.email?.message}</small>
+          )}
         </div>
         <div className="input-box flex flex-col mt-3">
           <label
@@ -61,8 +80,18 @@ const Login = () => {
             type="password"
             placeholder="Enter the password"
             className="border border-gray-400 outline-none focus:border-gray-600 p-2 rounded-sm"
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            {...register("password", {
+              required: "Password is required",
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,16}$/,
+                message:
+                  "Password should be atleast 6 and maximum 16 characters and must contain uppercase, lowercase and numbers",
+              },
+            })}
           />
+          {errors.password && (
+            <small className="text-red-600">{errors.password?.message}</small>
+          )}
         </div>
         <button
           type="submit"

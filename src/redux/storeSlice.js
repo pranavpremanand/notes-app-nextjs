@@ -25,8 +25,9 @@ const noteSlice = createSlice({
     deleteItem: (state, action) => {
       state.notes = state.notes.filter((post) => post.id !== action.payload);
     },
+    resetState: () => initialState,
   },
 });
 
-export const { setItems, addItem, updateItem, deleteItem } = noteSlice.actions;
+export const { setItems, addItem, updateItem, deleteItem,resetState } = noteSlice.actions;
 export default noteSlice.reducer;

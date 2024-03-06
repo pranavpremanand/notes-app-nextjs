@@ -8,6 +8,8 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { resetState } from "@/redux/storeSlice";
 
 export const AuthContext = createContext();
 
@@ -18,6 +20,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const signup = async (data) => {
     let { fullName, email, password } = data;
@@ -47,6 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     setCurrentUser(null);
+    dispatch(resetState());
     await signOut(auth);
   };
 

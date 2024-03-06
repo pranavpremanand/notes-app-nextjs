@@ -58,16 +58,17 @@ export const NoteProvider = ({ children }) => {
 
   // get all notes of the current user
   const getUserNotes = async () => {
-    console.log(currentUser.uid, "currentUser.uid");
+    console.log(currentUser?.uid, "currentUser.uid");
     const querySnapshot = await getDocs(
       collection(db, "notes"),
-      //   where("data.userId", "==", currentUser.uid)
-      where("data", "!=", null),
-      where("data.userId", "==", currentUser.uid)
+      where("data.userId", "==", currentUser?.uid)
     );
-    const data = querySnapshot.docs.map((doc) => {
+    let data = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data().data };
     });
+    console.log(data, "data");
+    data = data.filter((item) => item.userId === currentUser?.uid);
+    console.log(data, "data2");
 
     dispatch(setItems(data));
   };
