@@ -37,7 +37,7 @@ const Login = () => {
     <div className="w-full min-h-screen flex flex-col justify-center items-center">
       <div className="bg-blur-left bg-sky-800"></div>
       <div className="bg-blur-right bg-sky-800"></div>
-      <h1 className="text-2xl uppercase font-bold font-header underline">
+      <h1 className="text-2xl uppercase font-bold font-header">
         Login
       </h1>
       <form
